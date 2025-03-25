@@ -6,14 +6,12 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 app.use(cors());
-app.use(express.json()); 
-
+app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error(err));
-
 
 const orderSchema = new mongoose.Schema({
   items: Array,
@@ -21,7 +19,6 @@ const orderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 const Order = mongoose.model("Order", orderSchema);
-
 
 app.post("/api/orders", async (req, res) => {
   try {
@@ -34,6 +31,5 @@ app.post("/api/orders", async (req, res) => {
   }
 });
 
-
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Instead of app.listen(), export the app for Vercel
+export default app;
